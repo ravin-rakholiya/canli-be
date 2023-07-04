@@ -22,7 +22,7 @@ import configparser
 
 # Build paths inside the project like this: os.path.join(ROOT_DIR, ...)
 ROOT_DIR = environ.Path(__file__) - 3
-APPS_DIR = ROOT_DIR.path('eventos')
+APPS_DIR = ROOT_DIR.path('CanLi') - 1
 env = environ.Env()
 env_file = str(ROOT_DIR.path('.env'))
 env.read_env(env_file)
@@ -47,7 +47,7 @@ ALLOWED_HOSTS = env('ALLOWED_HOST').split(",")
 
 SYS_ENV = env('SYS_ENV')
 
-
+AUTH_USER_MODEL = 'user.User'
 # Application definition
 
 DJANGO_APPS = (
@@ -71,9 +71,9 @@ THIRD_PARTY_APPS = (
 
 LOCAL_APPS = (
     'user',
-    'report',
-    'learning',
-    'practicetest'
+    # 'report',
+    # 'learning',
+    # 'practicetest'
 )
 
 
@@ -154,7 +154,7 @@ SIMPLE_JWT = {
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-DATABASES = { 'default': env.db('DATABASE_URL', default='postgresql://postgres:adminpasspword@localhost:5432/canli'), }
+DATABASES = { 'default': env.db('DATABASE_URL', default='postgresql://postgres:adminpasspword@localhost:5432/canlilocal'), }
 
 
 # Password validation
