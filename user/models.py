@@ -101,6 +101,7 @@ class User(AbstractBaseUser):
     is_superuser = models.BooleanField(default=False)
     location_city = models.CharField(max_length=40, null=True, blank=True)
     groups = models.ManyToManyField('auth.Group', blank=True, null=True, )
+    test_date = models.DateField(blank=True, null=True)
     objects = UserManager()
     USERNAME_FIELD = "username"
 
@@ -166,3 +167,53 @@ class User(AbstractBaseUser):
     #     }
 
 
+
+class OTPVerification(models.Model):
+    CHEAT_OTP = ["123456", "001100", "000111"]
+    otp_to = models.CharField(max_length=50)
+    otp = models.IntegerField(blank=True, null=True, )
+    otp_validity = models.DateTimeField(blank=True, null=True, )
+
+    def __str__(self):
+        return f"{self.id}"
+
+    class Meta:
+        ordering = ["-id"]
+
+    # def send_otp(self):
+    #     expiry_time = datetime.now() + timedelta(minutes=10)
+    #     otp = random.randrange(99999, 999999, 12)
+    #     self.otp = otp
+    #     self.otp_validity = expiry_time
+    #     self.save()
+
+    #     if self.otp_type == "mobile":
+    #         OTP_SUFFIX = OTP_MESSAGES["OTP_SUFFIX"]
+    #         OTP_PREFIX = OTP_MESSAGES["SIGN_UP_MSG"]
+    #         message = OTP_MESSAGES["PASSCODE"] % {"otp": f"{self.otp}"}
+    #         Notification.send_message(full_contact_number=self.otp_to, message=message)
+
+    #     if self.otp_type == "email":
+    #         send_email_verify_otp(otp, [self.otp_to])
+    #     return True
+
+    # def validate_otp(self, otp_to, otp):
+    #     valid = (self.otp == int(otp) and self.otp_validity >= utc.localize(datetime.now())) and self.otp_to == otp_to
+    #     if settings.SYS_ENV != 'PROD' and not valid:
+    #         if otp in self.CHEAT_OTP:
+    #             valid = True
+    #     if valid:
+    #         self.delete()
+    #     return valid
+
+
+class UserFeedback(models.Model):
+	user = models.ForeignKey(User, on_delete=models.PROTECT, related_name='user_feedback')
+	feedback = models.TextField(null = False, blank = False)
+	created_at = models.DateTimeField(auto_now_add=True)
+
+	def __str__(self):
+		return f"{self.id}"
+
+	class Meta:
+		ordering = ["-id"]

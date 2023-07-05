@@ -73,7 +73,7 @@ LOCAL_APPS = (
     'user',
     # 'report',
     # 'learning',
-    # 'practicetest'
+    'practicetest'
 )
 
 
