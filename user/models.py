@@ -7,7 +7,10 @@ from django.contrib.auth.models import (
 )
 from django.core.validators import ValidationError
 from django.db import models
+<<<<<<< HEAD
 from rest_framework_simplejwt.tokens import RefreshToken
+=======
+>>>>>>> 9076a0f (created mail templated and SES for sending mail)
 from notification.email_notifications import send_login_otp, send_signup_otp, send_report_user_notification, \
     send_email_verify_otp
 # from notification.consts import OTP_MESSAGES
