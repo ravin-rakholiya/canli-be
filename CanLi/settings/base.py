@@ -187,3 +187,4 @@ STATIC_URL = '/static/'
 MEDIA_ROOT  = str(ROOT_DIR.path('media'))
 MEDIA_URL = '/media/'
 
+DEFAULT_FILE_STORAGE = 'config.storage_backends.MediaStorage'
