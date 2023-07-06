@@ -8,7 +8,8 @@ from django.contrib.auth.models import (
 from django.core.validators import ValidationError
 from django.db import models
 from rest_framework_simplejwt.tokens import RefreshToken
-
+from notification.email_notifications import send_login_otp, send_signup_otp, send_report_user_notification, \
+    send_email_verify_otp
 # from notification.consts import OTP_MESSAGES
 # from notification.email_notifications import send_login_otp, send_signup_otp, send_report_user_notification, \
 #     send_email_verify_otp
@@ -96,6 +97,7 @@ class User(AbstractBaseUser):
     dob = models.DateField(blank=True, null=True, )
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES, blank=True, null=True)
     email_verified = models.BooleanField(default=False)
+    mobile_otp = models.IntegerField(blank=True, null=True, )
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
@@ -126,28 +128,22 @@ class User(AbstractBaseUser):
         "Does the user have permissions to view the app `app_label`?"
         return True
 
-    # def send_otp_to_user(self, action="SIGN_UP_MSG"):
-    #     expiry_time = datetime.now() + timedelta(minutes=10)
-    #     otp = random.randrange(99999, 999999, 12)
-    #     self.mobile_otp = otp
-    #     self.mobile_otp_validity = expiry_time
-    #     self.save()
+    def send_otp_to_user(self, action="SIGN_UP_MSG"):
+        expiry_time = datetime.now() + timedelta(minutes=10)
+        otp = random.randrange(99999, 999999, 12)
+        self.mobile_otp = otp
+        self.mobile_otp_validity = expiry_time
+        self.save()
+        
+        if self.email:
+            if action == "SIGN_IN_MSG":
+                send_login_otp(otp, [self.email])
+            if action == "SIGN_UP_MSG":
+                send_signup_otp(otp, [self.email])
 
-    #     if self.contact_number:
-    #         OTP_SUFFIX = OTP_MESSAGES["OTP_SUFFIX"]
-    #         OTP_PREFIX = OTP_MESSAGES[action]
-    #         message = f" {OTP_SUFFIX} {otp} {OTP_PREFIX} "
-    #         Notification.send_message(contact_number=self.contact_number, message=message)
+            pass
 
-    #     if self.email:
-    #         if action == "SIGN_IN_MSG":
-    #             send_login_otp(otp, [self.email])
-    #         if action == "SIGN_UP_MSG":
-    #             send_signup_otp(otp, [self.email])
-
-    #         pass
-
-    #     return True
+        return True
 
     # def validate_otp(self, otp):
     #     valid = (self.mobile_otp == int(otp) and self.mobile_otp_validity >= utc.localize(datetime.now()))

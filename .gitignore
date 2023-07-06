@@ -3,3 +3,6 @@ Lib/
 Scripts/
 .env
 pyvenv.cfg
+.DS_Store
+CanLi/.DS_Store
+bin/
