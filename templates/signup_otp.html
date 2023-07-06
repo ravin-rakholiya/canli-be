@@ -1,0 +1,134 @@
+<!-- {% load static %} -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <style type="text/css">
+        /* <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,600,700,800&display=swap" rel="stylesheet"> */
+        @import url('https://fonts.googleapis.com/css?family=Raleway:300,400,600,700,800&display=swap');
+
+        * {
+          margin: 0;
+          border: 0;
+          padding: 0;
+        }
+
+        body {
+          max-width: 400px;
+          background-color: #ffffff;
+          margin: 0 auto;
+          padding: 2%;
+          color: #ffffff;
+          font-family: 'Raleway', sans-serif;
+        }
+
+        .wrapper {
+          background-color: #8757DC;
+          color: #ffffff;
+        }
+
+        .inner_wrapper {
+          
+          color: #ffffff;
+        }
+
+
+        #logo {
+          padding: 5%;
+          /*max-width: 35rem;*/
+          background-color: black;
+        }
+
+        /*#logo img {
+          width: 20%;
+        }*/
+
+        .header_text {
+          margin-top: 2rem;
+          font-size: 2.3rem;
+          font-weight: bold;
+          color: #ffffff;
+        }
+
+        .mt-1{
+              margin-top: 1rem;
+        }
+        .mt-2{
+              margin-top: 2rem;
+        }
+
+         .mt-5{
+              margin-top: 5rem;
+        }
+
+        .header_text {
+          font-size: 1.5rem;
+          font-style: bold;
+          color: #8757DC;
+        }
+
+        .header_sub_text {
+          font-size: .7rem;
+          font-style: bold;
+          color: #fff;
+        }
+
+        .col-two{
+              margin: 2rem;
+              color: #ffffff;
+        }
+
+        .color_bold{
+          color: #ffb300;
+          font-weight: 600;
+        }
+        .numFont{
+          font-family: sans-serif;
+          letter-spacing: 0.5px;
+        }
+
+        p {
+          color: #ffffff;
+        }
+
+        .footer {
+          margin-top: 3%;
+          font-size: .7rem;
+          text-align: center;
+          height: 50px;
+          background-color: #000;
+        }
+
+    </style>
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="inner_wrapper">
+
+          <header>
+              <div id="logo">
+                <p class="header_text"> Verify Your Signup </p>
+              <p class="header_sub_text"> Below is your one time passcode</p>
+              </div>
+          </header>
+          <div class="col-one">
+            <div class="col-two">
+              <p>Hey!</p>
+              <p  class="mt-1">Your Verification code is : <strong> {{otp}} </strong> . OTP will be valid for next 10 minutes</p>
+              <p class="mt-1"> If you are facing any issue with your account please do <a href="https://www.inventchat.com/contact-us/" style="color: #000"> Contact Us </a></p>
+              <p  class="mt-1">In order to keep your account safe
+              and secure, never share your login
+              details with anyone.</p>
+              <p  class="mt-2">Best Regards,</p>
+              <p>Team InventChat</p>
+            </div>
+            <div class="footer">
+              <p > You are recieving this mail because you have an account with InventChat. <br />
+              Not you? please <a href="https://www.inventchat.com/contact-us/" style="color: #8757DC"> Contact Us </a></p>
+            </div>
+
+          </div>
+      </div>
+    </div> <!--  End of wrapper  -->
+  </body>
+</html>

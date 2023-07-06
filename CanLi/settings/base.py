@@ -71,12 +71,12 @@ THIRD_PARTY_APPS = (
 
 LOCAL_APPS = (
     'user',
-    # 'report',
+    'notification',
     # 'learning',
     'practicetest'
 )
 
-
+APPEND_SLASH=False
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
 MIDDLEWARE = [
@@ -94,7 +94,7 @@ ROOT_URLCONF = 'CanLi.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [str(ROOT_DIR.path('templates'))],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -176,7 +176,13 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = "email-smtp.us-east-2.amazonaws.com"
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
+EMAIL_PORT = 587
+EMAIL_HOST_USER = env('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
