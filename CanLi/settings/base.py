@@ -125,7 +125,6 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 100,
 }
-
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(days=60),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=300),
@@ -177,7 +176,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = "email-smtp.us-east-2.amazonaws.com"
+EMAIL_HOST = "smtp.gmail.com"
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
 EMAIL_PORT = 587
@@ -194,3 +193,4 @@ STATIC_URL = '/static/'
 MEDIA_ROOT  = str(ROOT_DIR.path('media'))
 MEDIA_URL = '/media/'
 
+DEFAULT_FILE_STORAGE = 'config.storage_backends.MediaStorage'

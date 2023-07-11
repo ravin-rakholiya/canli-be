@@ -7,6 +7,7 @@ from django.contrib.auth.models import (
 )
 from django.core.validators import ValidationError
 from django.db import models
+from rest_framework_simplejwt.tokens import RefreshToken
 from notification.email_notifications import send_login_otp, send_signup_otp, send_report_user_notification, \
     send_email_verify_otp
 # from notification.consts import OTP_MESSAGES
@@ -154,13 +155,13 @@ class User(AbstractBaseUser):
     #         self.save()
     #     return valid
 
-    # def get_tokens_for_user(self):
-    #     refresh = RefreshToken.for_user(self)
+    def get_tokens_for_user(self):
+        refresh = RefreshToken.for_user(self)
 
-    #     return {
-    #         'refresh': str(refresh),
-    #         'access': str(refresh.access_token),
-    #     }
+        return {
+            'refresh': str(refresh),
+            'access': str(refresh.access_token),
+        }
 
 
 
