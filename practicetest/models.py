@@ -16,10 +16,10 @@ class PracticeTest(models.Model):
 
     test_type = models.CharField(max_length=128, choices=TEST_TYPE, blank=True, null=True)
     question_type = models.CharField(max_length=128, choices=QUESTION_TYPE, blank=True, null=True)
-    question = models.CharField(max_length=256, null = False, blank = False)
+    question = models.CharField(max_length=256, null = True, blank = True)
     option = models.CharField(max_length=256, null = False, blank = False)
     answer = models.CharField(max_length=128, null = False, blank = False)
-    content = models.ForeignKey(Content, on_delete=models.PROTECT, related_name='practice_test_content')
+    content = models.ForeignKey(Content, on_delete=models.PROTECT, related_name='practice_test_content', blank = True, null = True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
 
