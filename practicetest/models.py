@@ -1,5 +1,6 @@
 from django.db import models
 from user.models import User
+from content.models import *
 
 # Create your models here.
 class PracticeTest(models.Model):
@@ -18,6 +19,7 @@ class PracticeTest(models.Model):
     question = models.CharField(max_length=256, null = False, blank = False)
     option = models.CharField(max_length=256, null = False, blank = False)
     answer = models.CharField(max_length=128, null = False, blank = False)
+    content = models.ForeignKey(Content, on_delete=models.PROTECT, related_name='practice_test_content')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
 

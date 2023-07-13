@@ -9,8 +9,8 @@ from practicetest.models import *
 
 # Register your models here.
 class PracticeTestAdmin(admin.ModelAdmin):
-    fields = ['test_type','question_type','question','option','answer']
-    list_display = ('id', 'test_type','question_type','question','option','answer','created_at','updated_at')
+    fields = ['test_type','question_type','question','content','option','answer', ]
+    list_display = ('id', 'test_type','question_type','question','option','answer','content','created_at','updated_at')
     list_per_page = 25
 
 admin.site.register(PracticeTest, PracticeTestAdmin)

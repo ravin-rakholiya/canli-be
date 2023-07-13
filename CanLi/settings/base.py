@@ -65,14 +65,14 @@ THIRD_PARTY_APPS = (
     # 'rest_framework.authtoken',
     # 'django.contrib.sites',
     # 'drf_yasg',
-    # 'storages'
+    'storages'
 
 )
 
 LOCAL_APPS = (
     'user',
     'notification',
-    # 'learning',
+    'content',
     'practicetest'
 )
 
@@ -185,12 +185,49 @@ EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-STATICFILES_DIRS = (str(APPS_DIR.path('static')),
-    # ('custom_emails', str(ROOT_DIR.path('templates/assets'))),
 
+
+
+AWS_DEFAULT_ACL = 'public-read'
+AWS_BUCKET_ACL = 'public-read'
+AWS_ACCESS_KEY_ID = env('AWS_S3_ACCESS_KEY')
+AWS_SECRET_ACCESS_KEY = env('AWS_S3_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = env('AWS_STORAGE_BUCKET_NAME')
+# AWS_S3_CUSTOM_DOMAIN = env('AWS_S3_CUSTOM_DOMAIN')
+AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+
+AWS_LOCATION = 'static'
+
+AWS_S3_OBJECT_PARAMETERS = {
+    'CacheControl': 'max-age=86400',
+}
+
+SERVE_FILE_BACKEND = 'filetransfers.backends.url.serve_file'
+
+STATICFILES_DIRS = (
+    str(APPS_DIR.path('static')),
 )
-STATIC_URL = '/static/'
-MEDIA_ROOT  = str(ROOT_DIR.path('media'))
+
+STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+DEFAULT_FILE_STORAGE = 'config.storage_backends.MediaStorage'
+
+# EMAIL_BACKEND = env('EMAIL_BACKEND')
+# AWS_SES_ACCESS_KEY_ID = env('AWS_SES_ACCESS_KEY_ID')
+# AWS_SES_SECRET_ACCESS_KEY = env('AWS_SES_SECRET_ACCESS_KEY')
+
+MEDIA_ROOT = str(ROOT_DIR.path('media'))
 MEDIA_URL = '/media/'
 
-DEFAULT_FILE_STORAGE = 'config.storage_backends.MediaStorage'
+
+
+
+# STATICFILES_DIRS = (str(APPS_DIR.path('static')),
+#     # ('custom_emails', str(ROOT_DIR.path('templates/assets'))),
+
+# )
+# STATIC_URL = '/static/'
+# MEDIA_ROOT  = str(ROOT_DIR.path('media'))
+# MEDIA_URL = '/media/'
+
+# DEFAULT_FILE_STORAGE = 'config.storage_backends.MediaStorage'
