@@ -7,4 +7,5 @@ urlpatterns = [
     path('verify_otp', views.VerifyOTP.as_view(), name='verify-otp'),
     path('edit/profile', views.EditProfile.as_view(), name='edit-profile'),
     path('add/feedback', views.UserFeedbackAPIView.as_view(), name='user-feedback'),
+    path('add/test_date', views.AddTestDate.as_view(), name='add-testdate'),
 ]

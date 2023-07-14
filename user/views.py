@@ -18,7 +18,6 @@ class EditProfile(APIView):
 
     def post(self, request):
         user = request.user
-        user.email = request.data.get('email', None)
         user.full_name = request.data.get('full_name', None)
         user.dob = request.data.get('dob', None)
         user.gender = request.data.get('gender', None)
@@ -120,6 +119,22 @@ class UserFeedbackAPIView(APIView):
                 return Response({"error": "Please fill the feedback."}, status.HTTP_422_UNPROCESSABLE_ENTITY)
             user_feedback = UserFeedback.objects.create(user = user, feedback = feedback)
             return Response({"response": "Feedback submitted successfully"}, status.HTTP_201_CREATED)
+        except Exception as e:
+            return Response({"error": "something went wrong."}, status.HTTP_422_UNPROCESSABLE_ENTITY)
+
+
+class AddTestDate(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        try:
+            user = request.user
+            test_date = request.data.get('test_date', None)
+            if test_date is None or test_date == "":
+                return Response({"error": "Please select the test date."}, status.HTTP_422_UNPROCESSABLE_ENTITY)
+            user.test_date = test_date
+            user.save()
+            return Response({"response": "TestDate submitted successfully"}, status.HTTP_201_CREATED)
         except Exception as e:
             return Response({"error": "something went wrong."}, status.HTTP_422_UNPROCESSABLE_ENTITY)
 
