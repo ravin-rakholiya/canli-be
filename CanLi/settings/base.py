@@ -90,7 +90,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'CanLi.urls'
-
+print([str(ROOT_DIR.path('templates'))],)
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',

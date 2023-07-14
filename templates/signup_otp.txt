@@ -1,1 +1,0 @@
-Your Verification code is : {{otp}} for login, OTP will be valid for next 10 minutes.
