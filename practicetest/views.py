@@ -14,19 +14,14 @@ class FetchQuestionAPIView(APIView):
 	permission_classes = [IsAuthenticated]
 	serializer_classes = []
 
-	def post(self, request):
+	def get(self, request):
 		try:
 			user = request.user
+			context = {"user_id": user.id}
 			user_practices = UserPractice.objects.filter(user = user, is_bookmarked = True)
-			questions = []
-			question_bank = []
-
-			for user_practice in user_practices:
-				questions.append(user_practice.practice_test.id)
-			for question in PracticeTest.objects.all():
-				if question not in questions:
-					question_bank.append(question)
-			return Response({"response":PracticeTestSerializer(question_bank, many = True).data}, status.HTTP_200_OK)
+			question_type = request.query_params.get("question_type", None)
+			questions = PracticeTest.objects.filter(question_type = question_type)
+			return Response({"response":PracticeTestSerializer(questions, context = context, many = True).data}, status.HTTP_200_OK)
 		except Exception as e:
 			print(e)
 			return Response({"error":"something went wrong"}, status.HTTP_400_BAD_REQUEST)
@@ -56,6 +51,22 @@ class BookmarkQuestionAPIView(APIView):
 			print(e)
 			return Response({"error":"something went wrong"}, status.HTTP_400_BAD_REQUEST)
 
+	def get(self, request):
+		try:
+			user = request.user
+			context = {"user_id": user.id}
+			user_practices = UserPractice.objects.filter(is_bookmarked = True, user = user)
+			practice_test = []
+			if user_practices:
+				for user_practice in user_practices:
+					if user_practice.practice_test.question_type != "note":
+						practice_test.append(user_practice.practice_test)
+			return Response({"response":PracticeTestSerializer(practice_test, context = context, many = True).data}, status.HTTP_200_OK)
+		except Exception as e:
+			print(e)
+			return Response({"error":"something went wrong"}, status.HTTP_400_BAD_REQUEST)
+
+
 
 class ChallangeQuestionAPIView(APIView):
 	permission_classes = [IsAuthenticated]
@@ -78,6 +89,40 @@ class ChallangeQuestionAPIView(APIView):
 				return Response({"response":"Challanged Updated Successfully."}, status.HTTP_200_OK)
 			else:
 				return Response({"error":"please provide question id"}, status.HTTP_422_UNPROCESSABLE_ENTITY)
+		except Exception as e:
+			print(e)
+			return Response({"error":"something went wrong"}, status.HTTP_400_BAD_REQUEST)
+
+	def get(self, request):
+		try:
+			user = request.user
+			context = {"user_id": user.id}
+			user_practices = UserPractice.objects.filter(is_challanged = True, user = user)
+			practice_test = []
+			if user_practices:
+				for user_practice in user_practices:
+					if user_practice.practice_test.question_type != "note":
+						practice_test.append(user_practice.practice_test)
+			return Response({"response":PracticeTestSerializer(practice_test, context = context, many = True).data}, status.HTTP_200_OK)
+		except Exception as e:
+			print(e)
+			return Response({"error":"something went wrong"}, status.HTTP_400_BAD_REQUEST)
+
+class FetchStaredNotesAPIView(APIView):
+	permission_classes = [IsAuthenticated]
+	serializer_classes = []
+
+	def get(self, request):
+		try:
+			user = request.user
+			context = {"user_id": user.id}
+			user_practices = UserPractice.objects.filter(is_bookmarked = True, user = user)
+			practice_test = []
+			if user_practices:
+				for user_practice in user_practices:
+					if user_practice.practice_test.question_type == "note":
+						practice_test.append(user_practice.practice_test)
+			return Response({"response":PracticeTestSerializer(practice_test, context = context, many = True).data}, status.HTTP_200_OK)
 		except Exception as e:
 			print(e)
 			return Response({"error":"something went wrong"}, status.HTTP_400_BAD_REQUEST)

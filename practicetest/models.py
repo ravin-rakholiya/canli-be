@@ -7,7 +7,7 @@ class PracticeTest(models.Model):
     QUESTION_TYPE = (
         ('sign', 'Sign'),
         ('rule', 'Rule'),
-        ('note', 'note')
+        ('note', 'Note')
     )
     TEST_TYPE = (
         ('easy', 'Easy'),
