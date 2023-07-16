@@ -134,12 +134,14 @@ class FetchPracticeTestAPIView(APIView):
 
 	def get(self, request):
 		try:
+			user = request.user
+			context = {"user_id": user.id}
 			practice_test_id = request.query_params.get("practice_test_number", None)
 			if practice_test_id is None:
 				return Response({"error":"please provide practice test number"}, status.HTTP_422_UNPROCESSABLE_ENTITY)
 			sign_questions = PracticeTest.objects.filter(question_type = "sign").order_by('?')[:20]
 			rule_questions = PracticeTest.objects.filter(question_type = "rule").order_by('?')[:20]
-			return Response({"response":PracticeTestSerializer(sign_questions.union(rule_questions), many = True).data}, status.HTTP_200_OK)
+			return Response({"response":PracticeTestSerializer(sign_questions.union(rule_questions), context = context,many = True).data}, status.HTTP_200_OK)
 		except Exception as e:
 			print(e)
 			return Response({"error":"something went wrong"}, status.HTTP_400_BAD_REQUEST)
