@@ -55,7 +55,7 @@ class GenerateOTP(APIView):
                 if user:
                     pass
                 else:
-                    return Response({"message": "Please make sign up."}, status.HTTP_422_UNPROCESSABLE_ENTITY)
+                    return Response({"error": "Please make sign up."}, status.HTTP_422_UNPROCESSABLE_ENTITY)
             if email:
                 otp_to = f"{email}"
                 otp_verification = OTPVerification.objects.get_or_create(otp_to=otp_to)[0]
