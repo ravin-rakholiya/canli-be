@@ -75,6 +75,7 @@ class VerifyOTP(APIView):
 
     def post(self, request):
         try:
+            print(f"78------", request.data)
             email = request.data.get("email", None)
             otp = request.data.get("otp", None)
             otp_verification_id = request.data.get("otp_verification_id", None)
