@@ -79,6 +79,8 @@ class VerifyOTP(APIView):
             otp = request.data.get("otp", None)
             otp_verification_id = request.data.get("otp_verification_id", None)
             full_name = request.data.get("full_name", None)
+            test_date = request.data.get("test_date", None)
+            location_city = request.data.get("location_city", None)
             user = None
             
             if not email:
@@ -92,7 +94,7 @@ class VerifyOTP(APIView):
 
             if full_name is None:
                 if email:
-                    user = User.objects.filter(email = contact_number)
+                    user = User.objects.filter(email = email)
                     if user:
                         pass
             otp_verification = OTPVerification.objects.get(pk=otp_verification_id)
@@ -107,7 +109,7 @@ class VerifyOTP(APIView):
                                 status.HTTP_422_UNPROCESSABLE_ENTITY)
                 else:
                     username = email
-                    user = User.objects.create(full_name = full_name, username=username, email=email)
+                    user = User.objects.create(full_name = full_name, username=username, email=email, test_date = test_date, location_city = location_city)
 
             if user:
                 if email:
