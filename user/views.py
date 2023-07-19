@@ -113,6 +113,7 @@ class VerifyOTP(APIView):
                     user = User.objects.create(full_name = full_name, username=username, email=email, test_date = test_date, location_city = location_city, dob = dob)
 
             if user:
+                user = user.last()
                 if email:
                     if not user.email_verified:
                         user.email_verified = True
