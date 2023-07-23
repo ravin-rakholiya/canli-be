@@ -166,5 +166,20 @@ class FetchModuleAPIView(APIView):
 			print(e)
 			return Response({"error":"something went wrong"}, status.HTTP_400_BAD_REQUEST)
 
+class FetchUserProgress(APIView):
+	permission_classes = [IsAuthenticated]
+	serializer_classes = []
+
+	def get(self, request):
+		try:
+			user = request.user
+			user_practice = UserPractice.objects.filter(user = user)
+			practice_test = PracticeTest.objects.all()
+
+			user_progress = (len(user_practice)*100)/len(practice_test)
+			return Response({"response":int(user_progress)}, status.HTTP_200_OK)
+		except Exception as e:
+			print(e)
+			return Response({"error":"something went wrong"}, status.HTTP_400_BAD_REQUEST)
 
 
