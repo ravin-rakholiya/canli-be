@@ -8,4 +8,5 @@ urlpatterns = [
 	path('fetch/practice/test', views.FetchPracticeTestAPIView.as_view(), name='fetch-practice-test'),
 	path('bookmark/question', views.BookmarkQuestionAPIView.as_view(), name='bookmark-question'),
 	path('challange/question', views.ChallangeQuestionAPIView.as_view(), name='challange-question'),
+	path('module/question', views.FetchModuleAPIView.as_view(), name='challange-question'),
 ]

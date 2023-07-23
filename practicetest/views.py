@@ -34,21 +34,15 @@ class BookmarkQuestionAPIView(APIView):
 		try:
 			practice_test_id = request.data.get("question_id", None)
 			is_bookmark = request.data.get("bookmark", None)
-			print("37-------", practice_test_id)
-			print("38-------", is_bookmark)
 			if practice_test_id:
 				user = request.user
 				questions = PracticeTest.objects.get(id=practice_test_id)
 				user_practice = UserPractice.objects.filter(user = user, practice_test = questions)
-				print("43-------",questions )
-				print("44-------",user_practice )
 				if len(user_practice)>0:
 					user_practice = user_practice.last()
 					user_practice.is_bookmarked = is_bookmark
 					user_practice.save()
-					print("49------", user_practice.__dict__)
 				else:
-					print("51--------------------")
 					user_practice = UserPractice.objects.create(user = user, practice_test = questions, is_bookmarked = is_bookmark)
 				return Response({"response":"Bookmarked Updated Successfully."}, status.HTTP_200_OK)
 			else:
@@ -153,6 +147,21 @@ class FetchPracticeTestAPIView(APIView):
 			sign_questions = PracticeTest.objects.filter(question_type = "sign").order_by('?')[:20]
 			rule_questions = PracticeTest.objects.filter(question_type = "rule").order_by('?')[:20]
 			return Response({"response":PracticeTestSerializer(sign_questions.union(rule_questions), context = context,many = True).data}, status.HTTP_200_OK)
+		except Exception as e:
+			print(e)
+			return Response({"error":"something went wrong"}, status.HTTP_400_BAD_REQUEST)
+
+class FetchModuleAPIView(APIView):
+	permission_classes = [IsAuthenticated]
+	serializer_classes = []
+
+	def get(self, request):
+		try:
+			user = request.user
+			context = {"user_id": user.id}
+			question_type = request.query_params.get("question_type", None)
+			questions = PracticeTest.objects.filter(question_type = question_type).order_by('?')
+			return Response({"response":PracticeTestSerializer(questions, context = context,many = True).data}, status.HTTP_200_OK)
 		except Exception as e:
 			print(e)
 			return Response({"error":"something went wrong"}, status.HTTP_400_BAD_REQUEST)
