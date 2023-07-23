@@ -10,4 +10,5 @@ urlpatterns = [
 	path('challange/question', views.ChallangeQuestionAPIView.as_view(), name='challange-question'),
 	path('module/question', views.FetchModuleAPIView.as_view(), name='module-wise-questions'),
 	path('fetch/progress', views.FetchUserProgress.as_view(), name='fetch-progress'),
+	path('reset/progress', views.ResetUserProgress.as_view(), name='reset-progress'),
 ]
