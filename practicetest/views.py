@@ -144,8 +144,8 @@ class FetchPracticeTestAPIView(APIView):
 				else:
 					questions = PracticeTest.objects.filter(test_type = test_type).order_by('?')
 					return Response({"response":PracticeTestSerializer(questions, context = context,many = True).data}, status.HTTP_200_OK)
-			sign_questions = PracticeTest.objects.filter(question_type = "sign").order_by('?')[:20]
-			rule_questions = PracticeTest.objects.filter(question_type = "rule").order_by('?')[:20]
+			sign_questions = PracticeTest.objects.filter(question_type = "sign", test_type = test_type).order_by('?')[:20]
+			rule_questions = PracticeTest.objects.filter(question_type = "rule", test_type = test_type).order_by('?')[:20]
 			return Response({"response":PracticeTestSerializer(sign_questions.union(rule_questions), context = context,many = True).data}, status.HTTP_200_OK)
 		except Exception as e:
 			print(e)
