@@ -34,15 +34,21 @@ class BookmarkQuestionAPIView(APIView):
 		try:
 			practice_test_id = request.data.get("question_id", None)
 			is_bookmark = request.data.get("bookmark", None)
+			print("37-------", practice_test_id)
+			print("38-------", is_bookmark)
 			if practice_test_id:
 				user = request.user
 				questions = PracticeTest.objects.get(id=practice_test_id)
 				user_practice = UserPractice.objects.filter(user = user, practice_test = questions)
+				print("43-------",questions )
+				print("44-------",user_practice )
 				if len(user_practice)>0:
 					user_practice = user_practice.last()
 					user_practice.is_bookmarked = is_bookmark
 					user_practice.save()
+					print("49------", user_practice.__dict__)
 				else:
+					print("51--------------------")
 					user_practice = UserPractice.objects.create(user = user, practice_test = questions, is_bookmarked = is_bookmark)
 				return Response({"response":"Bookmarked Updated Successfully."}, status.HTTP_200_OK)
 			else:
