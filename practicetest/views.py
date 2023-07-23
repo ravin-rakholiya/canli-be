@@ -38,7 +38,7 @@ class BookmarkQuestionAPIView(APIView):
 				user = request.user
 				questions = PracticeTest.objects.get(id=practice_test_id)
 				user_practice = UserPractice.objects.filter(user = user, practice_test = questions)
-				if user_practice:
+				if len(user_practice)>0:
 					user_practice = user_practice.last()
 					user_practice.is_bookmarked = is_bookmark
 					user_practice.save()
